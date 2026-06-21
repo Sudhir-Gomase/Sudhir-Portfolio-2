@@ -38,7 +38,7 @@ export default function ProjectsSection() {
   );
 
   return (
-    <section id="projects" ref={ref} className="py-20 md:py-28">
+    <section id="projects" ref={ref} className="section-pad">
       <div className="section-wrap">
         <div className="section-header-wrap">
           <SectionHeader
@@ -50,7 +50,7 @@ export default function ProjectsSection() {
         </div>
         <FeaturedProjects featured={projects.filter((p) => p.featured)} />
 
-        <div className="section-reveal invisible mt-16 border-t border-line pt-14 md:mt-20 md:pt-16">
+        <div className="section-reveal invisible mt-10 border-t border-line pt-10 md:mt-12 md:pt-12">
           <SectionHeader
             index="Personal"
             title="Personal projects"

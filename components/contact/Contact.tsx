@@ -77,7 +77,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" ref={ref} className="section-muted py-20 md:py-28">
+    <section id="contact" ref={ref} className="section-muted section-pad">
       <div className="section-wrap">
         <div className="grid gap-12 lg:grid-cols-5 lg:gap-16">
           <div className="lg:col-span-2">

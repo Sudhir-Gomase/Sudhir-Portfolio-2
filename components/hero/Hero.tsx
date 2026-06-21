@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import MagneticButton from "@/components/ui/MagneticButton";
 import TypingEffect from "@/components/hero/TypingEffect";
+import HeroProfile from "@/components/hero/HeroProfile";
 import { characterScroll } from "@/lib/characterScroll";
 import { gsap, registerGsapPlugins, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { siteConfig, typingPhrases, stats } from "@/lib/data";
@@ -38,7 +39,7 @@ export default function Hero() {
           { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.09 }
         )
         .fromTo(
-          ".hero-line",
+          ".hero-line, .hero-profile",
           { y: 24, autoAlpha: 0 },
           { y: 0, autoAlpha: 1, duration: 0.55, stagger: 0.07 },
           "-=0.45"
@@ -46,27 +47,21 @@ export default function Hero() {
 
       ScrollTrigger.matchMedia({
         "(min-width: 1024px)": () => {
-          gsap.timeline({
-            scrollTrigger: {
-              trigger: section,
-              start: "top top",
-              end: "+=130%",
-              pin: true,
-              scrub: 0.22,
-              onEnter: () => setHeroScrollState(0, true),
-              onEnterBack: () => setHeroScrollState(characterScroll.progress, true),
-              onLeave: () => setHeroScrollState(1, false),
-              onLeaveBack: () => setHeroScrollState(0, true),
-              onUpdate: (self) => setHeroScrollState(self.progress, true),
-            },
-          }).to(".hero-content", { y: -72, autoAlpha: 0.1, ease: "none" }, 0.08);
+          ScrollTrigger.create({
+            trigger: section,
+            start: "top top",
+            end: "bottom top",
+            onEnter: () => setHeroScrollState(0, true),
+            onEnterBack: () => setHeroScrollState(0, true),
+            onLeave: () => setHeroScrollState(1, false),
+            onLeaveBack: () => setHeroScrollState(0, true),
+          });
         },
         "(max-width: 1023px)": () => {
           ScrollTrigger.create({
             trigger: section,
             start: "top top",
             end: "bottom top",
-            scrub: 0.3,
             onEnter: () => setHeroScrollState(0, true),
             onEnterBack: () => setHeroScrollState(0, true),
             onLeave: () => setHeroScrollState(1, false),
@@ -80,12 +75,11 @@ export default function Hero() {
 
   return (
     <section ref={ref} id="hero" className="relative overflow-x-hidden bg-canvas bg-hero-mesh">
-      <div className="pointer-events-none absolute -left-40 top-16 h-[200px] w-[200px] rounded-full bg-brand/12 blur-[80px] sm:h-[320px] sm:w-[320px] sm:blur-[100px] md:h-[380px] md:w-[380px]" />
-      <div className="pointer-events-none absolute -right-32 bottom-0 h-[180px] w-[180px] rounded-full bg-accent/10 blur-[70px] sm:h-[280px] sm:w-[280px] sm:blur-[90px]" />
+      <div className="pointer-events-none absolute -left-40 top-16 h-[200px] w-[200px] rounded-full bg-brand/8 blur-[80px] sm:h-[320px] sm:w-[320px] sm:blur-[100px] md:h-[380px] md:w-[380px]" />
 
-      <div className="hero-wrap relative z-10 min-h-[100svh] pt-[var(--nav-h)] pb-6 sm:pb-10 md:pb-12">
+      <div className="hero-wrap relative z-10 min-h-[100svh] pt-[var(--nav-h)] pb-4 sm:pb-6 md:pb-8">
         <div className="grid min-h-[calc(100svh-var(--nav-h))] grid-cols-1 items-center gap-6 md:grid-cols-12 md:gap-8 lg:gap-10">
-          <div className="hero-content relative z-20 pb-[38vh] md:col-span-6 md:pb-0 lg:col-span-6 xl:col-span-5">
+          <div className="hero-content relative z-20 md:col-span-6 lg:col-span-6 xl:col-span-5">
             <h1 className="font-display text-display-hero font-semibold text-ink-heading" aria-label={siteConfig.name}>
               <span className="hero-word block invisible">{firstName}</span>
               <span className="hero-word text-stroke mt-1 block invisible sm:mt-2">{lastName}</span>
@@ -109,6 +103,10 @@ export default function Hero() {
               </MagneticButton>
             </div>
 
+            <div className="hero-line invisible mt-8 md:hidden">
+              <HeroProfile seamless />
+            </div>
+
             <div className="hero-line invisible mt-6 grid grid-cols-3 gap-2 border-t border-line pt-5 sm:mt-8 sm:gap-3 sm:pt-6 md:mt-10 md:gap-4 md:pt-8">
               {heroStats.map((stat) => (
                 <div key={stat.label} className="min-w-0">
@@ -123,8 +121,9 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Spacer column — avatar renders in fixed overlay aligned to this area on md+ */}
-          <div className="hidden md:col-span-6 md:block lg:col-span-6 xl:col-span-7" aria-hidden />
+          <div className="hero-profile invisible hidden items-center justify-center md:col-span-6 md:flex lg:col-span-6 xl:col-span-7">
+            <HeroProfile seamless className="max-w-full lg:max-w-[560px] xl:max-w-[620px]" />
+          </div>
         </div>
       </div>
     </section>

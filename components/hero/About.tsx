@@ -35,7 +35,7 @@ export default function About() {
   );
 
   return (
-    <section id="about" ref={ref} className="border-y border-line py-20 md:py-28">
+    <section id="about" ref={ref} className="section-pad border-y border-line">
       <div className="section-wrap">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">

@@ -20,7 +20,7 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div
-      className={cn("mb-12 md:mb-16", align === "center" && "text-center", className)}
+      className={cn("mb-8 md:mb-10", align === "center" && "text-center", className)}
     >
       <span
         className={cn(

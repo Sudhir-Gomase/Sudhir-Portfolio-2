@@ -56,6 +56,41 @@ export const siteConfig = {
   cv: "/Resume.pdf",
 };
 
+export const footerNavLinks = [
+  { href: "#about", label: "About" },
+  { href: "#journey", label: "Journey" },
+  { href: "#expertise", label: "Expertise" },
+  { href: "#projects", label: "Work" },
+  { href: "#contact", label: "Contact" },
+] as const;
+
+export const footerSocialLinks = [
+  {
+    href: siteConfig.github,
+    label: "GitHub",
+    external: true,
+    icon: "github" as const,
+  },
+  {
+    href: siteConfig.linkedin,
+    label: "LinkedIn",
+    external: true,
+    icon: "linkedin" as const,
+  },
+  {
+    href: `mailto:${siteConfig.email}`,
+    label: "Email",
+    external: false,
+    icon: "mail" as const,
+  },
+  {
+    href: `tel:${siteConfig.phone.replace(/\s/g, "")}`,
+    label: "Phone",
+    external: false,
+    icon: "phone" as const,
+  },
+] as const;
+
 export const typingPhrases = [
   "Fastify APIs at scale",
   "Microservices on AWS",

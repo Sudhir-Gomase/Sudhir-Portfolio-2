@@ -3,28 +3,64 @@
 import { useRef } from "react";
 import { gsap, registerGsapPlugins, useGSAP } from "@/lib/gsap";
 import { techStackGroups } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
-/** Unique skills only — split alternately so no skill appears in both marquee rows */
 const uniqueSkills = [...new Set(techStackGroups.flatMap((g) => g.items))];
 const rowA = uniqueSkills.filter((_, i) => i % 2 === 0);
 const rowB = uniqueSkills.filter((_, i) => i % 2 === 1);
+
+function SkillPill({ skill, size = "md" }: { skill: string; size?: "sm" | "md" }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex shrink-0 items-center rounded-full border border-line bg-surface/90 font-medium text-ink-muted shadow-soft backdrop-blur-sm",
+        size === "sm"
+          ? "px-3 py-1.5 text-xs"
+          : "px-4 py-2 text-sm transition-all duration-300 hover:border-brand/35 hover:text-ink-heading md:px-5"
+      )}
+    >
+      {skill}
+    </span>
+  );
+}
 
 function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boolean }) {
   const loop = [...items, ...items];
 
   return (
-    <div className="marquee-mask group/marquee overflow-hidden py-2.5">
+    <div className="marquee-mask overflow-hidden py-2">
       <div
-        className={`marquee-track flex w-max gap-3 group-hover/marquee:[animation-play-state:paused] ${reverse ? "marquee-reverse" : ""}`}
+        className={cn(
+          "marquee-track flex w-max gap-3",
+          reverse && "marquee-reverse"
+        )}
         aria-hidden
       >
         {loop.map((skill, i) => (
+          <SkillPill key={`${skill}-${i}`} skill={skill} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MobileSkillGrid() {
+  return (
+    <div className="md:hidden">
+      <div className="mb-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {techStackGroups.map((group) => (
           <span
-            key={`${skill}-${i}`}
-            className="skill-pill shrink-0 rounded-full border border-line bg-surface/90 px-5 py-2 text-sm font-medium text-ink-muted shadow-soft backdrop-blur-sm transition-all duration-300 hover:border-brand/35 hover:text-ink-heading"
+            key={group.label}
+            className="shrink-0 rounded-full border border-line bg-surface/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink-faint"
           >
-            {skill}
+            {group.label}
           </span>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-2.5">
+        {uniqueSkills.map((skill) => (
+          <SkillPill key={skill} skill={skill} size="sm" />
         ))}
       </div>
     </div>
@@ -65,17 +101,19 @@ export default function SkillFocus() {
       id="skills"
       ref={ref}
       aria-label="Tech stack"
-      className="relative border-b border-line bg-canvas-muted/50 py-14 md:py-16"
+      className="section-pad-sm relative overflow-hidden border-b border-line bg-canvas-muted/50"
     >
       <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-brand/[0.03] to-transparent" aria-hidden />
 
-      <div className="section-wrap !px-5 md:!pl-6 md:!pr-8">
-        <div className="skills-reveal invisible mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
+      <div className="section-wrap">
+        <div className="skills-reveal invisible mb-5 flex flex-col gap-3 md:mb-8 md:flex-row md:items-end md:justify-between md:gap-4">
+          <div className="min-w-0">
             <p className="label-caps mb-2">Stack</p>
-            <h2 className="font-display text-display-lg text-ink-heading">Technologies I work with</h2>
+            <h2 className="font-display text-[1.35rem] leading-tight text-ink-heading sm:text-2xl md:text-display-lg">
+              Technologies I work with
+            </h2>
           </div>
-          <div className="hidden gap-2 sm:flex">
+          <div className="hidden shrink-0 flex-wrap gap-2 md:flex">
             {techStackGroups.map((group) => (
               <span
                 key={group.label}
@@ -87,13 +125,18 @@ export default function SkillFocus() {
           </div>
         </div>
 
-        <div className="skills-reveal invisible space-y-1 rounded-2xl border border-line/80 bg-surface/40 p-3 backdrop-blur-sm md:p-4">
+        {/* Mobile — static wrapped grid (no marquee) */}
+        <div className="skills-reveal invisible rounded-2xl border border-line/80 bg-surface/40 p-4 backdrop-blur-sm md:hidden">
+          <MobileSkillGrid />
+        </div>
+
+        {/* Desktop — dual marquee */}
+        <div className="skills-reveal invisible hidden space-y-1 rounded-2xl border border-line/80 bg-surface/40 p-3 backdrop-blur-sm md:block md:p-4">
           <MarqueeRow items={rowA.length ? rowA : uniqueSkills} />
           <div className="mx-auto h-px w-[92%] bg-line" aria-hidden />
           <MarqueeRow items={rowB.length ? rowB : rowA} reverse />
         </div>
 
-        {/* Screen-reader list — one entry per skill, no marquee duplicates */}
         <ul className="sr-only">
           {uniqueSkills.map((skill) => (
             <li key={skill}>{skill}</li>

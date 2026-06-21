@@ -54,7 +54,7 @@ export default function ScrollStory() {
   );
 
   return (
-    <section id="expertise" ref={ref} className="py-20 md:py-28">
+    <section id="expertise" ref={ref} className="section-pad">
       <div className="section-wrap">
         <div className="section-header-wrap">
           <SectionHeader

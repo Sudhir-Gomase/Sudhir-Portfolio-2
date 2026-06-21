@@ -3,7 +3,6 @@ import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import GsapProvider from "@/components/gsap/GsapProvider";
 import GameCursor from "@/components/layout/GameCursor";
-import CharacterCompanion from "@/components/layout/CharacterCompanion";
 import ScrollProgressBar from "@/components/layout/ScrollProgressBar";
 import SmoothScrollProvider from "@/components/layout/SmoothScrollProvider";
 import ThemeProvider from "@/components/layout/ThemeProvider";
@@ -51,7 +50,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F7F4EE" },
+    { media: "(prefers-color-scheme: light)", color: "#F5F3ED" },
     { media: "(prefers-color-scheme: dark)", color: "#050508" },
   ],
 };
@@ -88,7 +87,6 @@ export default function RootLayout({
               <div className="grain-overlay" aria-hidden="true" />
               <div className="premium-vignette pointer-events-none fixed inset-0 z-[9997]" aria-hidden />
               <GameCursor />
-              <CharacterCompanion />
               <ScrollProgressBar />
               <Navbar />
               <main className="relative bg-canvas">{children}</main>
