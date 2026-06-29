@@ -255,7 +255,7 @@ export default function Journey() {
   );
 
   return (
-    <section id="journey" ref={ref} className="section-muted section-pad overflow-hidden">
+    <section id="journey" ref={ref} className="section-muted section-pad">
       <div className="section-wrap">
         <SectionHeader
           index="02 — Journey"

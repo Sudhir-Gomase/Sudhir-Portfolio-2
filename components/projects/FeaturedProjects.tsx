@@ -260,7 +260,7 @@ export default function FeaturedProjects({ featured }: { featured: Project[] }) 
 
       <div
         ref={viewportRef}
-        className="projects-carousel overflow-x-auto"
+        className="projects-carousel overflow-x-auto md:overflow-x-hidden md:[touch-action:pan-y]"
         aria-roledescription="carousel"
         aria-label="Selected projects"
       >

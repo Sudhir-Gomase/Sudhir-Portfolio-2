@@ -62,25 +62,17 @@
 
   html {
     scroll-behavior: auto;
+    scroll-padding-top: var(--nav-h);
     background: var(--color-canvas);
     overflow-x: hidden;
-  }
-
-  html.lenis {
-    height: auto;
-  }
-
-  html.lenis.lenis-smooth {
-    scroll-behavior: auto;
-  }
-
-  html.lenis.lenis-stopped {
-    overflow: hidden;
+    overflow-y: auto;
   }
 
   body {
     @apply overflow-x-hidden bg-canvas font-sans text-ink antialiased;
-    min-height: 100vh;
+    min-height: 100%;
+    height: auto;
+    overflow-y: visible;
     font-feature-settings: "kern" 1, "liga" 1, "ss01" 1;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -160,6 +152,13 @@
     scrollbar-width: none;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+  }
+
+  @media (min-width: 768px) {
+    .projects-carousel {
+      scroll-snap-type: none;
+    }
   }
 
   .projects-carousel::-webkit-scrollbar {
@@ -171,6 +170,7 @@
     scrollbar-width: none;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
   }
 
   .journey-horizontal::-webkit-scrollbar {
